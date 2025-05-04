@@ -12,9 +12,9 @@ import instaloader
 import re
 
 # Конфигурация
-API_ID = "20971021"  # Замени на твой api_id
-API_HASH = "c85636e36b5e7a72a84a5722887fa431"  # Замени на твой api_hash
-BOT_TOKEN = "8044618810:AAGo808I1wrSmOOpUfpqTzx6UCm08GrfB90"  # Замени на токен бота
+API_ID = ""  # Замени на твой api_id
+API_HASH = ""  # Замени на твой api_hash
+BOT_TOKEN = ""  # Замени на токен бота
 OUTPUT_DIR = os.path.expandvars(r"%USERPROFILE%\Desktop\telegram_data")
 
 # Инициализация Telethon и Instaloader
