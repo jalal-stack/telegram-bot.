@@ -1,6 +1,6 @@
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    data = request.args
+    data = request.json
 
     parent = data.get('parent', '—')
     child = data.get('child', '—')
