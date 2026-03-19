@@ -7,46 +7,31 @@ app = Flask(__name__)
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
-    data = request.json
+    print("🔥 WEBHOOK HIT")
 
-    parent = data.get('PARENT', '—')
-    child = data.get('CHILD', '—')
-    age = data.get('AGE', '—')
-    phone = data.get('PHONE', '—')
-    address = data.get('ADDRESS', '—')
-    date = data.get('DATE', '—')
-    stage = data.get('STAGE', '—')
+    # ✅ получаем данные из Bitrix (URL)
+    data = request.args
 
-    # 🎯 Разные тексты по стадиям
-    if "Жалоба" in stage:
-        text = f"""🚨 Новая жалоба!
+    parent = data.get('parent', '—')
+    child = data.get('child', '—')
+    age = data.get('age', '—')
+    phone = data.get('phone', '—')
+    address = data.get('address', '—')
+    date = data.get('date', '—')
 
-Родитель: {parent}
-Ребенок: {child}
-Телефон: {phone}
-Комментарий: {address}
-"""
-    elif "Резерв" in stage:
-        text = f"""📌 Резерв:
+    print("📦 DATA:", data)
 
-Родитель: {parent}
-Телефон: {phone}
-Дата: {date}
-"""
-    else:
-        text = f"""📊 Запись на Диагностику Навыков:
+    text = f"""📊 Новая заявка:
 
-ФИО ребенка: {child}
-ФИО родителя: {parent}
-Возраст ребенка: {age}
-Адрес садика: {address}
-Телефон: {phone}
-Дата: {date}
+👶 Ребенок: {child}
+👩 Родитель: {parent}
+📞 Телефон: {phone}
+📍 Адрес: {address}
+📅 Дата: {date}
 """
 
-    # 📲 Отправка в Telegram
     requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
         data={
@@ -55,7 +40,8 @@ def webhook():
         }
     )
 
-    return {"ok": True}
+    return "OK", 200
+
 
 @app.route('/')
 def home():
