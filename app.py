@@ -22,6 +22,7 @@ phone = data.get('phone', '—')
 address = data.get('address', '—')
 date = data.get('date', '—')
 email = data.get('email', '—')
+complaint = data.get('complaint', '-') 
 stage = data.get('stage', '').lower()
 
 # 🔥 разные тексты
@@ -33,7 +34,7 @@ if "жалоб" in stage:
 📞 Телефон: {phone}
 
 📝 Жалоба:
-${complaint}
+{complaint}
 
 elif "резерв" in stage:
     text = f"""📌 РЕЗЕРВ:
