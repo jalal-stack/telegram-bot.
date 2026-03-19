@@ -28,7 +28,7 @@ def webhook():
     stage = data.get('stage', '').lower()
 
     # 🔥 разные тексты
-  if "жалоба" in stage or "complaint" in stage or "c" in stage:
+if any(word in stage for word in ["жалоб", "жалоба", "проблем", "fail"]):
         text = f"""🚨 ЖАЛОБА!
 
 👶 Ребёнок: {child}
