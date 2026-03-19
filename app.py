@@ -21,7 +21,6 @@ age = data.get('age', '—')
 phone = data.get('phone', '—')
 address = data.get('address', '—')
 date = data.get('date', '—')
-email = data.get('email', '—')
 complaint = data.get('complaint', '-') 
 stage = data.get('stage', '').lower()
 
@@ -44,7 +43,7 @@ elif "резерв" in stage:
 3. Возраст ребенка: {age}
 4. Адрес желаемого садика: {address}
 5. Телефон номер родителя: {phone}
-6. Email родителя: {email}
+
 
 
 else:
@@ -55,8 +54,7 @@ else:
 3. Возраст ребенка: {age}
 4. Адрес желаемого садика: {address}
 5. Телефон номер родителя: {phone}
-6. Email родителя: {email}
-7. Дата и время пробного дня: {date}
+6. Дата и время пробного дня: {date}
 
     print("🔥 WEBHOOK HIT:", data)  # лог
 
