@@ -27,8 +27,10 @@ def webhook():
     complaint = data.get('complaint', '—')
     stage = data.get('stage', '').lower()
 
-    # 🔥 разные тексты
-if any(word in stage for word in ["жалоб", "жалоба", "проблем", "fail"]):
+    print("STAGE:", stage)
+
+    # 🔥 ЛОГИКА СТАДИЙ (ВАЖНО: одинаковые отступы)
+    if any(word in stage for word in ["жалоб", "жалоба", "проблем"]):
         text = f"""🚨 ЖАЛОБА!
 
 👶 Ребёнок: {child}
