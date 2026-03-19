@@ -13,22 +13,45 @@ def home():
 
 @app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
-    data = request.args  # 👈 Bitrix = query params
+    data = request.args
 
-    parent = data.get('parent', '—')
-    child = data.get('child', '—')
-    age = data.get('age', '—')
-    phone = data.get('phone', '—')
-    address = data.get('address', '—')
-    date = data.get('date', '—')
-    stage = data.get('stage', '—')
+parent = data.get('parent', '—')
+child = data.get('child', '—')
+age = data.get('age', '—')
+phone = data.get('phone', '—')
+address = data.get('address', '—')
+date = data.get('date', '—')
+email = data.get('email', '—')
+stage = data.get('stage', '').lower()
 
-    text = f"""📊 Новая заявка:
+# 🔥 разные тексты
+if "жалоб" in stage:
+    text = f"""🚨 ЖАЛОБА!
 
-Ребенок: {child}
-Родитель: {parent}
-Телефон: {phone}
-Дата: {date}
+👩 Родитель: {parent}
+👶 Ребенок: {child}
+📞 Телефон: {phone}
+📝 Комментарий: {address}
+"""
+
+elif "резерв" in stage:
+    text = f"""📌 РЕЗЕРВ:
+
+👩 Родитель: {parent}
+📞 Телефон: {phone}
+📅 Дата: {date}
+"""
+
+else:
+    text = f"""👀 Заявка на Диагностику:
+
+1. ФИО ребенка: {child}
+2. ФИО родителя: {parent}
+3. Возраст ребенка: {age}
+4. Адрес желаемого садика: {address}
+5. Телефон номер родителя: {phone}
+6. Дата и время Диагностики: {date}
+7. Почта родителя: {email}
 """
 
     print("🔥 WEBHOOK HIT:", data)  # лог
