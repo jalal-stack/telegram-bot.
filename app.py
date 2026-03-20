@@ -30,7 +30,7 @@ def webhook():
     print("STAGE:", stage)
 
     # 🔥 ЛОГИКА СТАДИЙ (ВАЖНО: одинаковые отступы)
-    if any(word in stage for word in ["жалоб", "жалоба", "проблем"]):
+    if any(word in stage for word in ["жалобы", "жалоба", "проблем"]):
         text = f"""🚨 ЖАЛОБА!
 
 👶 Ребёнок: {child}
