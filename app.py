@@ -37,8 +37,7 @@ def webhook():
 👩 Родитель: {parent}
 📞 Телефон: {phone}
 
-📝 Жалоба:
-{complaint}
+
 """
 
     elif "резерв" in stage:
