@@ -19,7 +19,7 @@ def home():
 def webhook():
     print("🔥 WEBHOOK HIT")
 
-    data = request.values
+   return str(dict(request.values)), 200
 
     print("RAW DATA:", dict(data))
 
