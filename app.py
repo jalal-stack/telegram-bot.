@@ -7,16 +7,23 @@ app = Flask(__name__)
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-@app.route('/')
+
+# GET для проверки в браузере
+@app.route('/', methods=['GET'])
 def home():
     return "WORKING"
 
 
+# POST можно слать и в / и в /webhook
+@app.route('/', methods=['POST'])
 @app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
     print("🔥 WEBHOOK HIT")
 
-    data = request.args
+    # Берем параметры и из query (?phone=...) и из form-data (Bitrix часто шлет так)
+    data = request.values
+
+    print("RAW DATA:", dict(data))
 
     parent = data.get('parent', '—')
     child = data.get('child', '—')
@@ -29,15 +36,12 @@ def webhook():
 
     print("STAGE:", stage)
 
-    # 🔥 ЛОГИКА СТАДИЙ (ВАЖНО: одинаковые отступы)
-    if "Жалобы" in stage:
+    if "жалобы" in stage:
         text = f"""🚨 ЖАЛОБЫ!
 
 👶 Ребёнок: {child}
 👩 Родитель: {parent}
 📞 Телефон: {phone}
-
-
 """
 
     elif "резерв" in stage:
@@ -61,8 +65,8 @@ def webhook():
 6. Дата и время пробного дня: {date}
 """
 
-    # 📲 отправка в Telegram
-    requests.post(
+    # Отправка в Telegram
+    r = requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
         data={
             "chat_id": CHAT_ID,
@@ -70,8 +74,12 @@ def webhook():
         }
     )
 
-    return {"ok": True}
+    print("TELEGRAM STATUS:", r.status_code)
+    print("TELEGRAM RESPONSE:", r.text)
+
+    return {"ok": True}, 200
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
