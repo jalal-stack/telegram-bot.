@@ -8,19 +8,17 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
 
-# GET для проверки в браузере
+# Только GET в корень
 @app.route('/', methods=['GET'])
 def home():
     return "WORKING"
 
 
-# POST можно слать и в / и в /webhook
-@app.route('/', methods=['POST'])
+# Только настоящий webhook
 @app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
     print("🔥 WEBHOOK HIT")
 
-    # Берем параметры и из query (?phone=...) и из form-data (Bitrix часто шлет так)
     data = request.values
 
     print("RAW DATA:", dict(data))
@@ -31,7 +29,6 @@ def webhook():
     phone = data.get('phone', '—')
     address = data.get('address', '—')
     date = data.get('date', '—')
-    complaint = data.get('complaint', '—')
     stage = data.get('stage', '').lower()
 
     print("STAGE:", stage)
@@ -65,7 +62,6 @@ def webhook():
 6. Дата и время пробного дня: {date}
 """
 
-    # Отправка в Telegram
     r = requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
         data={
@@ -75,7 +71,6 @@ def webhook():
     )
 
     print("TELEGRAM STATUS:", r.status_code)
-    print("TELEGRAM RESPONSE:", r.text)
 
     return {"ok": True}, 200
 
