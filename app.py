@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-# ВРЕМЕННО напрямую (для теста)
+# ⚠️ ЗАМЕНИТЕ на свой новый токен!
 TELEGRAM_TOKEN = "8675300847:AAHClwA7GEU04l1YbBslgoimFp_2QVPQGRI"
 CHAT_ID = "1003865656272"
 
@@ -20,25 +20,52 @@ def webhook():
     data = request.values
     print("DATA:", dict(data))
 
+    # 🔹 Получаем данные из Bitrix
     parent = data.get('parent', '—')
     child = data.get('child', '—')
     age = data.get('age', '—')
     phone = data.get('phone', '—')
     address = data.get('address', '—')
-    date = data.get('date', '—')
-    stage = data.get('stage', '').lower()
+    date = data.get('date')
+    complaint = data.get('complaint')
 
-    if not child or child == '—':
+    # ❌ защита от пустых
+    if child == '—' and parent == '—':
         print("EMPTY → SKIP")
         return {"ignored": True}, 200
 
-    text = f"""👀 Заявка:
+    # 🔥 ЛОГИКА (приоритет по данным)
+    if complaint:
+        text = f"""🚨 ЖАЛОБА!
 
 👶 {child}
 👩 {parent}
 📞 {phone}
+📝 {complaint}
 """
 
+    elif date:
+        text = f"""👀 ДИАГНОСТИКА:
+
+👶 {child}
+👩 {parent}
+🎂 {age}
+📍 {address}
+📞 {phone}
+📅 {date}
+"""
+
+    else:
+        text = f"""📌 РЕЗЕРВ:
+
+👶 {child}
+👩 {parent}
+🎂 {age}
+📍 {address}
+📞 {phone}
+"""
+
+    # 📲 отправка в Telegram
     r = requests.post(
         f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
         data={
