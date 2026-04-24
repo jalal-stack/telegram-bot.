@@ -4,8 +4,8 @@ import os
 
 app = Flask(__name__)
 
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+TELEGRAM_TOKEN = os.getenv("8675300847:AAHClwA7GEU04l1YbBslgoimFp_2QVPQGRI")
+CHAT_ID = os.getenv("1003865656272")
 
 
 # Только GET в корень
