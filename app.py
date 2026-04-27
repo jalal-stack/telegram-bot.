@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # ⚠️ ЗАМЕНИТЕ на свой новый токен!
 TELEGRAM_TOKEN = "8675300847:AAHClwA7GEU04l1YbBslgoimFp_2QVPQGRI"
-CHAT_ID = "1003865656272"
+CHAT_ID = "-1003865656272"
 
 
 @app.route('/', methods=['GET'])
